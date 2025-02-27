@@ -4,6 +4,7 @@ using System.Net.Sockets;
 public class XSH {
     public static void Main(string[] args) {
         Console.Write("$ ");
-        Console.ReadLine();
+        string command = Console.ReadLine();
+        Console.WriteLine($"{command}: command not found");
     }
 }
