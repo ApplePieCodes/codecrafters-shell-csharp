@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace XSH {
     public abstract class Token {}
     public class Command : Token {
@@ -5,12 +7,24 @@ namespace XSH {
         public Command(string name) {
             Name = name;
         }
+
+        public override string ToString()
+        {
+            return $"Command: {Name}";
+        }
+
     }
     public class Argument : Token {
         public string Value { get; }
         public Argument(string value) {
             Value = value;
         }
+
+        public override string ToString()
+        {
+            return $"Argument: {Value}";
+        }
+
     }
     
     public enum TokenType {
@@ -20,7 +34,7 @@ namespace XSH {
     }
 
     public class InputParser {
-        private TokenType LastToken = TokenType.None;
+        private static TokenType LastToken = TokenType.None;
 
         public static List<Token> Parse(string input) {
             List<Token> tokens = [];
@@ -33,17 +47,29 @@ namespace XSH {
                             tokens.Add(new Command(buffer.ToString()));
                             LastToken = TokenType.Command;
                         } 
-                        else if (LastToken == TokenType.Command || LastToken == TokenType.Argument) {
+                        else {
                             tokens.Add(new Argument(buffer.ToString()));
                             LastToken = TokenType.Argument;
                         }
                         buffer.Clear();
                     }
                     i++;
-                } else {
+                } 
+                else {
                     buffer.Append(input[i]);
                     i++;
                 }
+            }
+            if (buffer.Length > 0) {
+                if (LastToken == TokenType.None) {
+                    tokens.Add(new Command(buffer.ToString()));
+                } 
+                else {
+                    tokens.Add(new Argument(buffer.ToString()));
+                }
+            }
+            foreach (var tok in tokens) {
+                Console.WriteLine(tok.ToString());
             }
             return tokens;
         }
