@@ -94,6 +94,21 @@ namespace XSH {
                     }
                     Console.WriteLine();
                     break;
+                case "type":
+                    i++;
+                    if (i < tokens.Count) {
+                        switch (((Argument)tokens[i]).Value) {
+                            case "exit":
+                            case "echo":
+                            case "type":
+                                Console.WriteLine($"{((Argument)tokens[i]).Value} is a shell builtin");
+                                break;
+                            default:
+                                Console.WriteLine($"{((Argument)tokens[i]).Value}: not found");
+                                break;
+                        }
+                    }
+                    break;
                 default:
                     Console.WriteLine($"{((Command)tokens[i]).Name}: command not found");
                     return;
