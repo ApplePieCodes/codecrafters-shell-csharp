@@ -68,9 +68,7 @@ namespace XSH {
                     tokens.Add(new Argument(buffer.ToString()));
                 }
             }
-            foreach (var tok in tokens) {
-                Console.WriteLine(tok.ToString());
-            }
+            LastToken = TokenType.None;
             return tokens;
         }
     }
@@ -97,9 +95,10 @@ namespace XSH {
                     Console.WriteLine();
                     break;
                 default:
-                    Console.Write($"{((Command)tokens[i]).Name}: command not found");
+                    Console.WriteLine($"{((Command)tokens[i]).Name}: command not found");
                     return;
             }
+            i = 0;
         }
     }
 
